@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Teoría de la Información — Claude Shannon</title>
+
+  <!-- Google Fonts variable -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Overlay de Login -->
+  <div id="login-overlay" class="login-overlay">
+    <form id="login-form" class="login-box" autocomplete="off">
+      <h2>Iniciar sesión</h2>
+
+      <label for="username">Usuario</label>
+      <input id="username" type="text" placeholder="admin" required />
+
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" placeholder="admin" required />
+
+      <button class="btn-primary" type="submit">Entrar</button>
+    </form>
+  </div>
+
+  <!-- HERO con gradiente y CTA -->
+  <header class="hero">
+    <div class="hero__content">
+      <h1 class="hero__title">Teoría de la Información</h1>
+      <p class="hero__subtitle">Claude E. Shannon</p>
+      <a href="#huffman" class="btn-primary cta">Probar la demo</a>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="container">
+    <!-- Grid con 2 tarjetas -->
+    <div class="card-grid">
+      <!-- Resumen -->
+      <section class="card" id="resumen">
+        <h2 class="card__title">Resumen</h2>
+        <p>Claude E. Shannon sentó las bases de la Teoría de la Información al definir la entropía como medida de incertidumbre. Cuanta mayor entropía posee un mensaje, más información potencial contiene y mayor es el reto de transmitirlo de forma eficiente. Su aporte permitió cuantificar la información en bits y establecer límites de compresión, impulsando tecnologías como la fibra óptica, la telefonía móvil y el Internet.</p>
+      </section>
+
+      <!-- Compresión con Huffman -->
+      <section class="card" id="huffman">
+        <h2 class="card__title">Compresión con Huffman</h2>
+        <p>El algoritmo de Huffman genera un código óptimo para un conjunto de símbolos con sus frecuencias conocidas. Sube tu archivo de texto y calcularemos la tabla de frecuencias, el árbol resultante y la versión comprimida en bits.</p>
+
+        <label class="file">
+          <span class="file__label">Selecciona tu archivo .txt para analizar</span>
+          <input type="file" id="subir-txt" accept=".txt" />
+        </label>
+
+        <button id="boton-huffman" class="btn-primary">Generar Código Huffman</button>
+
+        <div id="resultados" hidden>
+          <h3>Tabla de frecuencias de símbolos</h3>
+          <pre id="frecuencias"></pre>
+
+          <h3>Código Huffman generado</h3>
+          <pre id="codigos"></pre>
+
+          <h3>Salida comprimida (secuencia de bits)</h3>
+          <pre id="comprimido"></pre>
+        </div>
+      </section>
+    </div><!-- /card-grid -->
+  </main>
+
+  <!-- Scripts -->
+  <script src="huffman.js" defer></script>
+  <script>
+    /* Autenticación mínima */
+    const overlay = document.getElementById('login-overlay');
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+      if (user === 'admin' && pass === 'admin') {
+        overlay.classList.add('hidden');
+      } else {
+        alert('Credenciales incorrectas');
+        e.target.reset();
+      }
+    });
+
+    /* Mostrar resultados al pulsar Calcular */
+    document.getElementById('boton-huffman')
+      .addEventListener('click', () => document.getElementById('resultados').hidden = false);
+  </script>
+</body>
+</html> 
