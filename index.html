@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Teoría de la Información — Claude Shannon</title>
 
-  <!-- Google Fonts variable -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- Overlay de Login -->
+  <!-- Login ----------------------------------------------------------- -->
   <div id="login-overlay" class="login-overlay">
     <form id="login-form" class="login-box" autocomplete="off">
       <h2>Iniciar sesión</h2>
@@ -27,71 +27,85 @@
     </form>
   </div>
 
-  <!-- HERO con gradiente y CTA -->
+  <!-- HERO ------------------------------------------------------------ -->
   <header class="hero">
     <div class="hero__content">
       <h1 class="hero__title">Teoría de la Información</h1>
-      <p class="hero__subtitle">Claude E. Shannon</p>
       <a href="#huffman" class="btn-primary cta">Probar la demo</a>
     </div>
   </header>
 
-  <!-- Contenido principal -->
+  <!-- CONTENIDO ------------------------------------------------------- -->
   <main class="container">
-    <!-- Grid con 2 tarjetas -->
     <div class="card-grid">
-      <!-- Resumen -->
+      <!-- -------- Resumen -------- -->
       <section class="card" id="resumen">
-        <h2 class="card__title">Resumen</h2>
-        <p>Claude E. Shannon sentó las bases de la Teoría de la Información al definir la entropía como medida de incertidumbre. Cuanta mayor entropía posee un mensaje, más información potencial contiene y mayor es el reto de transmitirlo de forma eficiente. Su aporte permitió cuantificar la información en bits y establecer límites de compresión, impulsando tecnologías como la fibra óptica, la telefonía móvil y el Internet.</p>
+        <header class="card__header">
+          <h2 class="card__title">¿Qué es?</h2>
+          <button class="btn-secondary toggle-btn" data-target="resumen-body">Ver resumen</button>
+        </header>
+
+        <div class="card__body collapsed" id="resumen-body">
+          <p>Claude E. Shannon sentó las bases de la Teoría de la Información al definir la entropía como medida de incertidumbre. Cuanta mayor entropía posee un mensaje, más información potencial contiene y mayor es el reto de transmitirlo de forma eficiente. Su aporte permitió cuantificar la información en bits y establecer límites de compresión, impulsando tecnologías como la fibra óptica, la telefonía móvil y el Internet.</p>
+        </div>
       </section>
 
-      <!-- Compresión con Huffman -->
+      <!-- -------- Compresión con Huffman -------- -->
       <section class="card" id="huffman">
-        <h2 class="card__title">Compresión con Huffman</h2>
-        <p>El algoritmo de Huffman genera un código óptimo para un conjunto de símbolos con sus frecuencias conocidas. Sube tu archivo de texto y calcularemos la tabla de frecuencias, el árbol resultante y la versión comprimida en bits.</p>
+        <header class="card__header">
+          <h2 class="card__title">Compresión con Huffman</h2>
+          <button class="btn-secondary toggle-btn" data-target="huffman-body">Mostrar herramienta</button>
+        </header>
 
-        <label class="file">
-          <span class="file__label">Selecciona tu archivo .txt para analizar</span>
-          <input type="file" id="subir-txt" accept=".txt" />
-        </label>
+        <div class="card__body collapsed" id="huffman-body">
+          <p>El algoritmo de Huffman genera un código óptimo para un conjunto de símbolos con sus frecuencias conocidas. Sube tu archivo de texto y calcularemos la tabla de frecuencias, el árbol resultante y la versión comprimida en bits.</p>
 
-        <button id="boton-huffman" class="btn-primary">Generar Código Huffman</button>
+          <label class="file">
+            <span class="file__label">Selecciona tu archivo .txt para analizar</span>
+            <input type="file" id="subir-txt" accept=".txt" />
+          </label>
 
-        <div id="resultados" hidden>
-          <h3>Tabla de frecuencias de símbolos</h3>
-          <pre id="frecuencias"></pre>
+          <button id="boton-huffman" class="btn-primary">Generar Código Huffman</button>
 
-          <h3>Código Huffman generado</h3>
-          <pre id="codigos"></pre>
+          <div id="resultados" hidden>
+            <h3>Tabla de frecuencias de símbolos</h3>
+            <pre id="frecuencias"></pre>
 
-          <h3>Salida comprimida (secuencia de bits)</h3>
-          <pre id="comprimido"></pre>
+            <h3>Código Huffman generado</h3>
+            <pre id="codigos"></pre>
+
+            <h3>Salida comprimida (secuencia de bits)</h3>
+            <pre id="comprimido"></pre>
+          </div>
         </div>
       </section>
     </div><!-- /card-grid -->
   </main>
 
-  <!-- Scripts -->
+  <!-- SCRIPTS --------------------------------------------------------- -->
   <script src="huffman.js" defer></script>
   <script>
-    /* Autenticación mínima */
-    const overlay = document.getElementById('login-overlay');
+    /* --- Login minimal --- */
     document.getElementById('login-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value.trim();
-      if (user === 'admin' && pass === 'admin') {
-        overlay.classList.add('hidden');
-      } else {
-        alert('Credenciales incorrectas');
-        e.target.reset();
-      }
+      const u = username.value.trim(), p = password.value.trim();
+      if (u === 'admin' && p === 'admin') document.getElementById('login-overlay').classList.add('hidden');
+      else { alert('Credenciales incorrectas'); e.target.reset(); }
     });
 
-    /* Mostrar resultados al pulsar Calcular */
+    /* --- Mostrar resultados Huffman --- */
     document.getElementById('boton-huffman')
-      .addEventListener('click', () => document.getElementById('resultados').hidden = false);
+      .addEventListener('click', () => resultados.hidden = false);
+
+    /* --- Toggles de tarjetas --- */
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        target.classList.toggle('collapsed');
+        // Cambia texto del botón
+        btn.textContent = target.classList.contains('collapsed') ? 'Mostrar' : 'Ocultar';
+      });
+    });
   </script>
 </body>
-</html> 
+</html>
